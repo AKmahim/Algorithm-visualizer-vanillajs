@@ -227,7 +227,7 @@ async function doBubbleSort() {
         } else {
             lineContainerChildElements[animation.posI].style.backgroundColor = SELECT_COLOR;
             lineContainerChildElements[animation.posJ].style.backgroundColor = SELECT_COLOR;
-            await sleep(300);
+            await sleep(500);
             
             // Swapping the heights
             const tempHeight = lineContainerChildElements[animation.posI].style.height;
@@ -265,7 +265,7 @@ async function doSelectionSort() {
     let previous;
 
     for (let i = 0; i < animationArr.length; ++i) {
-        await sleep(300);
+        await sleep(500);
         
         // Resetting the previous elements' colors
         if (previous) {
