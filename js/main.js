@@ -3,6 +3,7 @@ import { getRandomNumber, sleep, setInactiveInteractions, enableInteractions, di
 import  getLinearSearchAnimations  from './linearSearch.js';
 import  getBubbleSortAnimations  from './bubbleSort.js';
 import  getSelectionSortAnimations  from './selectionSort.js';
+import getBinarySearchAnimations from './binarySearch.js';
 
 // Rest of your code...
 
@@ -66,6 +67,7 @@ function generateArray() {
     }
 }
 
+// =================================== linear search =========================
 async function doLinearSearch() {
     if (!searchNumber) {
         toast('fail', 'Enter search number >= 5!')
@@ -110,85 +112,88 @@ async function doLinearSearch() {
     enableInteractions()
 }
 
-// async function doBinarySearch() {
-//     if (!searchNumber) {
-//         toast('fail', 'Enter search number!')
-//         document.getElementById('search-number').focus()
-//         return
-//     }
+// ======================================= binary search ================================
+async function doBinarySearch() {
+    if (!searchNumber) {
+        toast('fail', 'Enter search number!')
+        document.getElementById('search-number').focus()
+        return
+    }
 
-//     if (!array.length) {
-//         toast('fail', 'Generate Array!')
-//         document.getElementById('generate-array').focus()
-//         return
-//     }
+    if (!array.length) {
+        toast('fail', 'Generate Array!')
+        document.getElementById('generate-array').focus()
+        return
+    }
 
-//     disableInteractions()
+    disableInteractions()
 
-//     let lineContainerChildElements = Array.from(document.getElementById('lines-container').children).slice()
+    let lineContainerChildElements = Array.from(document.getElementById('lines-container').children).slice()
     
-//     // Sort array and dom elements before performing binary search
-//     array.sort((a, b) => a - b)
-//     lineContainerChildElements.sort((a, b) => parseInt(a.style.height) - parseInt(b.style.height))
+    // Sort array and dom elements before performing binary search
+    array.sort((a, b) => a - b)
+    lineContainerChildElements.sort((a, b) => parseInt(a.style.height) - parseInt(b.style.height))
 
-//     let lineContainerElement = document.getElementById('lines-container')
+    let lineContainerElement = document.getElementById('lines-container')
 
-//     // Remove Present Children
-//     let child = lineContainerElement.lastElementChild;
-//     while (child) { 
-//         lineContainerElement.removeChild(child); 
-//         child = lineContainerElement.lastElementChild; 
-//     }
+    // Remove Present Children
+    let child = lineContainerElement.lastElementChild;
+    while (child) { 
+        lineContainerElement.removeChild(child); 
+        child = lineContainerElement.lastElementChild; 
+    }
 
-//     // Append the sorted childs
-//     for (let i = 0; i < array.length; ++i) {
-//         let lineElement = document.createElement('div')
-//         lineElement.className = "bar"
-//         lineElement.style.height = array[i] + 'px'
-//         lineContainerElement.appendChild(lineElement)
-//     }
+    // Append the sorted childs
+    for (let i = 0; i < array.length; ++i) {
+        let lineElement = document.createElement('div')
+        lineElement.className = "bar"
+        lineElement.style.height = array[i] + 'px'
+        lineElement.innerText = array[i]
+        lineElement.style.paddingBottom = '10px'
+        lineContainerElement.appendChild(lineElement)
+    }
 
-//     await sleep(1000)
+    await sleep(1000)
 
-//     let animationArr = getBinarySearchAnimations(searchNumber, array)
-//     let previous
-//     lineContainerChildElements = Array.from(document.getElementById('lines-container').children)
+    let animationArr = getBinarySearchAnimations(searchNumber, array)
+    let previous
+    lineContainerChildElements = Array.from(document.getElementById('lines-container').children)
 
-//     for (let i = 0; i < animationArr.length; ++i) {
-//         const animation = animationArr[i]
-//         await sleep(300)
-//         if (previous) {
-//             if (previous.status === 'compare') {
-//                 lineContainerChildElements[previous.lowIndex].style.backgroundColor = BG_COLOR
-//                 previous.highIndex >= 0 && (lineContainerChildElements[previous.highIndex].style.backgroundColor = BG_COLOR)
-//             } else {
-//                 lineContainerChildElements[previous.midIndex].style.backgroundColor = BG_COLOR
-//             }
-//         }
+    for (let i = 0; i < animationArr.length; ++i) {
+        const animation = animationArr[i]
+        await sleep(1000)
+        if (previous) {
+            if (previous.status === 'compare') {
+                lineContainerChildElements[previous.lowIndex].style.backgroundColor = BG_COLOR
+                previous.highIndex >= 0 && (lineContainerChildElements[previous.highIndex].style.backgroundColor = BG_COLOR)
+            } else {
+                lineContainerChildElements[previous.midIndex].style.backgroundColor = BG_COLOR
+            }
+        }
 
-//         if (animation.status === 'found') {
-//             lineContainerChildElements[animation.midIndex].style.backgroundColor = FOUND_COLOR
-//             toast('success', 'Found at index: ' + animation.midIndex)
-//             break
-//         } else if (animation.status === 'not-found') {
-//             lineContainerChildElements[animation.lowIndex].style.backgroundColor = BG_COLOR
-//             lineContainerChildElements[animation.midIndex].style.backgroundColor = BG_COLOR
-//             animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = BG_COLOR)
-//             toast('fail', 'Not Found')
-//             break
-//         } else if (animation.status === 'compare') {
-//             lineContainerChildElements[animation.lowIndex].style.backgroundColor = COMPARE_COLOR
-//             animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = COMPARE_COLOR)
-//             await sleep(300)
-//         } else {
-//             lineContainerChildElements[animation.midIndex].style.backgroundColor = SELECT_COLOR
-//         }
+        if (animation.status === 'found') {
+            lineContainerChildElements[animation.midIndex].style.backgroundColor = FOUND_COLOR
+            toast('success', 'Found at index: ' + animation.midIndex)
+            break
+        } else if (animation.status === 'not-found') {
+            lineContainerChildElements[animation.lowIndex].style.backgroundColor = BG_COLOR
+            lineContainerChildElements[animation.midIndex].style.backgroundColor = BG_COLOR
+            animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = BG_COLOR)
+            toast('fail', 'Not Found')
+            break
+        } else if (animation.status === 'compare') {
+            lineContainerChildElements[animation.lowIndex].style.backgroundColor = COMPARE_COLOR
+            animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = COMPARE_COLOR)
+            await sleep(1000)
+        } else {
+            lineContainerChildElements[animation.midIndex].style.backgroundColor = SELECT_COLOR
+        }
 
-//         previous = animation
-//     }
+        previous = animation
+    }
 
-//     enableInteractions()
-// }
+    enableInteractions()
+}
 
 
 async function doBubbleSort() {
@@ -316,6 +321,7 @@ window.handleDatasetSizeChange = handleDatasetSizeChange;
 window.handleSearchNumberChange = handleSearchNumberChange;
 window.generateArray = generateArray;
 window.doLinearSearch = doLinearSearch;
+window.doBinarySearch = doBinarySearch;
 window.doBubbleSort = doBubbleSort;
 window.doSelectionSort = doSelectionSort;
 
