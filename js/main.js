@@ -13,14 +13,7 @@ const FOUND_COLOR = 'green'
 const SELECT_COLOR = 'red'
 
 let datasetSize, searchNumber, array = [];
-// const randomizeBtn = document.getElementById('randomize');
 
-// randomizeBtn.addEventListener('click',()=>{
-
-// });
-// function handleRandomizeDataSet(){
-//     document.getElementById('randomize')
-// }
 
 function handleDatasetSizeChange() {
     console.log(document.getElementById('dataset-size').value);
@@ -195,100 +188,123 @@ async function doLinearSearch() {
 
 //     enableInteractions()
 // }
-
 async function doBubbleSort() {
+    console.log('okay');
+
     if (!array.length) {
-        toast('fail', 'Generate Array!')
-        document.getElementById('generate-array').focus()
-        return
+        toast('fail', 'Generate Array!');
+        document.getElementById('generate-array').focus();
+        return;
     }
 
-    disableInteractions()
+    disableInteractions();
 
-    let lineContainerChildElements = Array.from(document.getElementById('lines-container').children)
-    let animationArr = getBubbleSortAnimations(array)
-    let previous
+    let lineContainerChildElements = Array.from(document.getElementById('lines-container').children);
+    console.log(lineContainerChildElements);
+
+    let animationArr = getBubbleSortAnimations(array);
+    let previous;
 
     for (let i = 0; i < animationArr.length; ++i) {
-        await sleep(500)
+        await sleep(500);
         if (previous) {
-            lineContainerChildElements[previous.posI].style.backgroundColor = BG_COLOR
-            lineContainerChildElements[previous.posJ].style.backgroundColor = BG_COLOR
+            lineContainerChildElements[previous.posI].style.backgroundColor = BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor = BG_COLOR;
         }
-        const animation = animationArr[i]
+        const animation = animationArr[i];
 
         if (animation.status === 'compare') {
-            lineContainerChildElements[animation.posI].style.backgroundColor = COMPARE_COLOR
-            lineContainerChildElements[animation.posJ].style.backgroundColor = COMPARE_COLOR
+            lineContainerChildElements[animation.posI].style.backgroundColor = COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor = COMPARE_COLOR;
         } else {
-            lineContainerChildElements[animation.posI].style.backgroundColor = SELECT_COLOR
-            lineContainerChildElements[animation.posJ].style.backgroundColor = SELECT_COLOR
-            await sleep(300)
-            const tempHeight = lineContainerChildElements[animation.posI].style.height
-            lineContainerChildElements[animation.posI].style.height = lineContainerChildElements[animation.posJ].style.height
-            lineContainerChildElements[animation.posJ].style.height = tempHeight
+            lineContainerChildElements[animation.posI].style.backgroundColor = SELECT_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor = SELECT_COLOR;
+            await sleep(300);
+            
+            // Swapping the heights
+            const tempHeight = lineContainerChildElements[animation.posI].style.height;
+            lineContainerChildElements[animation.posI].style.height = lineContainerChildElements[animation.posJ].style.height;
+            lineContainerChildElements[animation.posJ].style.height = tempHeight;
+
+            // Update the displayed numbers
+            lineContainerChildElements[animation.posI].innerText = lineContainerChildElements[animation.posI].style.height.replace('px', '');
+            lineContainerChildElements[animation.posJ].innerText = lineContainerChildElements[animation.posJ].style.height.replace('px', '');
         }
 
-        previous = animation
+        previous = animation;
     }
 
     if (previous) {
-        lineContainerChildElements[previous.posI].style.backgroundColor = BG_COLOR
-        lineContainerChildElements[previous.posJ].style.backgroundColor = BG_COLOR
+        lineContainerChildElements[previous.posI].style.backgroundColor = BG_COLOR;
+        lineContainerChildElements[previous.posJ].style.backgroundColor = BG_COLOR;
     }
 
-    enableInteractions()
-    toast('success', 'Finshed sorting!')
+    enableInteractions();
+    toast('success', 'Finished sorting!');
 }
 
 async function doSelectionSort() {
     if (!array.length) {
-        toast('fail', 'Generate Array!')
-        document.getElementById('generate-array').focus()
-        return
+        toast('fail', 'Generate Array!');
+        document.getElementById('generate-array').focus();
+        return;
     }
 
-    disableInteractions()
+    disableInteractions();
 
-    let lineContainerChildElements = Array.from(document.getElementById('lines-container').children)
-    let animationArr = getSelectionSortAnimations(array)
-    let previous
+    let lineContainerChildElements = Array.from(document.getElementById('lines-container').children);
+    let animationArr = getSelectionSortAnimations(array);
+    let previous;
 
     for (let i = 0; i < animationArr.length; ++i) {
-        await sleep(300)
+        await sleep(300);
+        
+        // Resetting the previous elements' colors
         if (previous) {
-            Number.isInteger(previous.min) && (lineContainerChildElements[previous.min].style.backgroundColor = BG_COLOR)
-            Number.isInteger(previous.j) && (lineContainerChildElements[previous.j].style.backgroundColor = BG_COLOR)
-            Number.isInteger(previous.i) && (lineContainerChildElements[previous.i].style.backgroundColor = BG_COLOR)
+            Number.isInteger(previous.min) && (lineContainerChildElements[previous.min].style.backgroundColor = BG_COLOR);
+            Number.isInteger(previous.j) && (lineContainerChildElements[previous.j].style.backgroundColor = BG_COLOR);
+            Number.isInteger(previous.i) && (lineContainerChildElements[previous.i].style.backgroundColor = BG_COLOR);
         }
-        const animation = animationArr[i]
+        
+        const animation = animationArr[i];
 
         if (animation.status === 'compare') {
-            lineContainerChildElements[animation.min].style.backgroundColor = COMPARE_COLOR
-            lineContainerChildElements[animation.j].style.backgroundColor = COMPARE_COLOR
+            // Highlighting the bars being compared
+            lineContainerChildElements[animation.min].style.backgroundColor = COMPARE_COLOR;
+            lineContainerChildElements[animation.j].style.backgroundColor = COMPARE_COLOR;
         } else if (animation.status === 'swap') {
-            lineContainerChildElements[animation.min].style.backgroundColor = SELECT_COLOR
-            lineContainerChildElements[animation.i].style.backgroundColor = SELECT_COLOR
-            await sleep(300)
-            const tempHeight = lineContainerChildElements[animation.min].style.height
-            lineContainerChildElements[animation.min].style.height = lineContainerChildElements[animation.i].style.height
-            lineContainerChildElements[animation.i].style.height = tempHeight
+            // Highlighting the bars being swapped
+            lineContainerChildElements[animation.min].style.backgroundColor = SELECT_COLOR;
+            lineContainerChildElements[animation.i].style.backgroundColor = SELECT_COLOR;
+            await sleep(300);
+
+            // Swap the heights
+            const tempHeight = lineContainerChildElements[animation.min].style.height;
+            lineContainerChildElements[animation.min].style.height = lineContainerChildElements[animation.i].style.height;
+            lineContainerChildElements[animation.i].style.height = tempHeight;
+
+            // Update the displayed numbers 
+            lineContainerChildElements[animation.min].innerText = lineContainerChildElements[animation.min].style.height.replace('px', '');
+            lineContainerChildElements[animation.i].innerText = lineContainerChildElements[animation.i].style.height.replace('px', '');
         } else {
-            lineContainerChildElements[animation.min].style.backgroundColor = FOUND_COLOR
+            // Mark the found minimum as sorted (using FOUND_COLOR)
+            lineContainerChildElements[animation.min].style.backgroundColor = FOUND_COLOR;
         }
 
-        previous = animation
+        previous = animation;
     }
 
+    // Reset the colors after sorting is done
     if (previous) {
-        Number.isInteger(previous.min) && (lineContainerChildElements[previous.min].style.backgroundColor = BG_COLOR)
-        Number.isInteger(previous.j) && (lineContainerChildElements[previous.j].style.backgroundColor = BG_COLOR)
-        Number.isInteger(previous.i) && (lineContainerChildElements[previous.i].style.backgroundColor = BG_COLOR)
+        Number.isInteger(previous.min) && (lineContainerChildElements[previous.min].style.backgroundColor = BG_COLOR);
+        Number.isInteger(previous.j) && (lineContainerChildElements[previous.j].style.backgroundColor = BG_COLOR);
+        Number.isInteger(previous.i) && (lineContainerChildElements[previous.i].style.backgroundColor = BG_COLOR);
     }
 
-    enableInteractions()
-    toast('success', 'Finshed sorting!')
+    enableInteractions();
+    toast('success', 'Finished sorting!');
 }
+
 
 
 
