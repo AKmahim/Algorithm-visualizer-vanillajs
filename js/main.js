@@ -60,6 +60,7 @@ function generateArray() {
         lineElement.innerText = randomNumber
         lineElement.style.textAlign = 'center'
         lineElement.style.width = '50px'
+        lineElement.style.paddingBottom = '10px'
         
         lineContainerElement.appendChild(lineElement)
     }
@@ -188,6 +189,8 @@ async function doLinearSearch() {
 
 //     enableInteractions()
 // }
+
+
 async function doBubbleSort() {
     console.log('okay');
 
@@ -276,7 +279,7 @@ async function doSelectionSort() {
             // Highlighting the bars being swapped
             lineContainerChildElements[animation.min].style.backgroundColor = SELECT_COLOR;
             lineContainerChildElements[animation.i].style.backgroundColor = SELECT_COLOR;
-            await sleep(300);
+            await sleep(500);
 
             // Swap the heights
             const tempHeight = lineContainerChildElements[animation.min].style.height;

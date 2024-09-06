@@ -13,14 +13,39 @@ body{
     background: linear-gradient(to right, #514A9D, #24C6DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
+.line-container-parent{
+    display: flex;
+    justify-content:center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#lines-container {
+    display: flex;
+    align-items: flex-end; /* Aligns bars to the bottom */
+    justify-content: center; /* Centers the bars horizontally */
+    /* margin-top: 64px; */
+    min-height: 550px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 .bar {
     width: 30px;
     display: inline-block;
-    margin: 0 1px;
+    margin: 0 2px;
+    padding-top: 10px;
     background-color: #5bc8b1;
     opacity: 1;
     transition: height 100ms ease-in;
+    height: 100px; /* Default height for the bars */
+    text-align: center;
+    display: flex;
+    align-items: flex-end; /* Aligns text to the bottom of the bar */
+    justify-content: center;
+
 }
+
 .particles-js{
     background: #5C258D;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  /* Chrome 10-25, Safari 5.1-6 */
@@ -53,25 +78,8 @@ input::placeholder{
     color: black;
 }
 
-.line-container-parent{
-    display: flex;
-    justify-content:center;
-    width: 100%;
-}
 
-/* .controls {
-    display: flex;
-    justify-content: flex-start;
-} */
 
-#lines-container {
-   
-    
-    margin-top: 64px;
-    min-height: 600px;
-    /* padding: 32px; */
-    font-weight: bold;
-}
 
 .dropdown {
     display: inline-block;
