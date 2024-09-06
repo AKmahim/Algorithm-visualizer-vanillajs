@@ -4,42 +4,110 @@
     box-sizing: border-box;
     color: #fff;
 }
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #24C6DC;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #514A9D, #24C6DC);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #514A9D, #24C6DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
 .bar {
     width: 30px;
     display: inline-block;
     margin: 0 1px;
     background-color: #5bc8b1;
+    opacity: 1;
     transition: height 100ms ease-in;
 }
-.particle-div{
-    background-color:#0e0e0e; 
-    position:absolute;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
+.particles-js{
+    background: #5C258D;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4389A2, #5C258D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
 }
 
-h1, h3 {
-    font-family: 'Courier New', Courier, monospace;
-    color: whitesmoke;
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding:40px 40px 10px 40px;
+    /* background-color: red;; */
+
 }
 
-h1 {
-    margin-bottom: 1.5rem;
+input{
+    background-color: transparent;
+    border: solid 2px white;
+    outline: none;
+    font-size: 16px;
+    color:white;
+    margin: 0 12px;
+    padding: 11px 16px;
+    line-height: 1.3;
+    border-radius: 10px;
+}
+input::placeholder{
+    color: black;
 }
 
-h3 {
-    margin-bottom: 3rem;
+.line-container-parent{
+    display: flex;
+    justify-content:center;
+    width: 100%;
 }
+
+/* .controls {
+    display: flex;
+    justify-content: flex-start;
+} */
+
+#lines-container {
+   
+    
+    margin-top: 64px;
+    min-height: 600px;
+    /* padding: 32px; */
+    font-weight: bold;
+}
+
+.dropdown {
+    display: inline-block;
+    position: relative;
+    padding: 20px 20px;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+   
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .dropdown-content button {
+    /* margin: 10px 5px; */
+    margin: 5px;
+    background-color: transparent;
+    
+  }
+
+
+
 
 .btn {
-    background-color:#1f7ae0;
-    border: 1px solid#1f7ae0;
-    color:white;
+    background-color:#71c2f1;
+    border: 1px solid #71c2f1;
+    color:black;
     display: inline-block;
     white-space: nowrap;
     font-family: "Graphik Web Medium", sans-serif;
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: 500;
     text-align: center;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -79,41 +147,10 @@ h3 {
     background-color:#1f7ae077;
 }
 
-.ipt {
-    padding: 11px 16px;
-    line-height: 1.3;
-    width: 220px;
-    font-size: 14px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    padding: 12px;
-    border: solid 1px rgba(83, 91, 98, 0.25);
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    outline: none;
-    color:#2f363f;
-    margin: 0 12px;
-}
 
-.ipt:first-child {
-    margin: 0;
-}
+/* =================================== toast css ========================== */
 
-.controls {
-    display: flex;
-    justify-content: flex-start;
-}
 
-#lines-container {
-    margin-top: 64px;
-    min-height: 600px;
-    /* padding: 32px; */
-    font-weight: bold;
-}
-
-/* CSS of toast reference: https://codepen.io/kipp0/pen/pPNrrj */
 #toast {
     visibility: hidden;
     max-width: 50px;
