@@ -7,8 +7,8 @@ import  getSelectionSortAnimations  from './selectionSort.js';
 // Rest of your code...
 
 // constants
-const BG_COLOR = 'blue'
-const COMPARE_COLOR = 'yellow'
+const BG_COLOR = '#b978ec'
+const COMPARE_COLOR = '#a9d8f6'
 const FOUND_COLOR = 'green'
 const SELECT_COLOR = 'red'
 
@@ -23,7 +23,7 @@ let datasetSize, searchNumber, array = [];
 // }
 
 function handleDatasetSizeChange() {
-    // console.log(document.getElementById('dataset-size').value);
+    console.log(document.getElementById('dataset-size').value);
     
     datasetSize = Number(document.getElementById('dataset-size').value)
     // datasetSize = 15;
@@ -57,7 +57,7 @@ function generateArray() {
     array = []
 
     // Add new Children
-    for (let i = 0; i < 10; ++i) {
+    for (let i = 0; i < datasetSize; ++i) {
         let randomNumber = getRandomNumber(5, 500)
         array.push(randomNumber)
 
@@ -66,6 +66,7 @@ function generateArray() {
         lineElement.style.height = randomNumber + 'px'
         lineElement.innerText = randomNumber
         lineElement.style.textAlign = 'center'
+        lineElement.style.width = '50px'
         
         lineContainerElement.appendChild(lineElement)
     }
@@ -209,7 +210,7 @@ async function doBubbleSort() {
     let previous
 
     for (let i = 0; i < animationArr.length; ++i) {
-        await sleep(300)
+        await sleep(500)
         if (previous) {
             lineContainerChildElements[previous.posI].style.backgroundColor = BG_COLOR
             lineContainerChildElements[previous.posJ].style.backgroundColor = BG_COLOR
@@ -292,16 +293,16 @@ async function doSelectionSort() {
 
 
 
-// window.handleDatasetSizeChange = handleDatasetSizeChange;
-// window.handleSearchNumberChange = handleSearchNumberChange;
-// window.generateArray = generateArray;
-// window.doLinearSearch = doLinearSearch;
-// window.doBubbleSort = doBubbleSort;
-// window.doSelectionSort = doSelectionSort;
+window.handleDatasetSizeChange = handleDatasetSizeChange;
+window.handleSearchNumberChange = handleSearchNumberChange;
+window.generateArray = generateArray;
+window.doLinearSearch = doLinearSearch;
+window.doBubbleSort = doBubbleSort;
+window.doSelectionSort = doSelectionSort;
 
-document.getElementById('dataset-size').addEventListener('blur', handleDatasetSizeChange);
-document.getElementById('search-number').addEventListener('blur', handleSearchNumberChange);
-document.getElementById('generate-array').addEventListener('click', generateArray);
-document.getElementById('linear-search').addEventListener('click', doLinearSearch);
-document.getElementById('bubble-sort').addEventListener('click', doBubbleSort);
-document.getElementById('selection-sort').addEventListener('click', doSelectionSort);
+// document.getElementById('dataset-size').addEventListener('blur', handleDatasetSizeChange);
+// document.getElementById('search-number').addEventListener('blur', handleSearchNumberChange);
+// document.getElementById('generate-array').addEventListener('click', generateArray);
+// document.getElementById('linear-search').addEventListener('click', doLinearSearch);
+// document.getElementById('bubble-sort').addEventListener('click', doBubbleSort);
+// document.getElementById('selection-sort').addEventListener('click', doSelectionSort);

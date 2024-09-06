@@ -1,7 +1,8 @@
-body {
-    padding: 32px 64px;
-    color: #2f363f;
-    background-color: rgba(249,250,252, 0.5);;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: #fff;
 }
 .bar {
     width: 30px;
@@ -10,9 +11,17 @@ body {
     background-color: #5bc8b1;
     transition: height 100ms ease-in;
 }
+.particle-div{
+    background-color:#0e0e0e; 
+    position:absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
 
 h1, h3 {
     font-family: 'Courier New', Courier, monospace;
+    color: whitesmoke;
 }
 
 h1 {
@@ -100,7 +109,8 @@ h3 {
 #lines-container {
     margin-top: 64px;
     min-height: 600px;
-    padding: 32px;
+    /* padding: 32px; */
+    font-weight: bold;
 }
 
 /* CSS of toast reference: https://codepen.io/kipp0/pen/pPNrrj */

@@ -3,35 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithm visualizer | Supratik Basu</title>
+    <title>Algorithm visualizer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
-
+    <!-- Particles.js CDN -->
+    <script src="js/lib/particles.min.js"></script>
 </head>
 <body>
+    <!-- Add a div for the particles.js background -->
+    <div id="particles-js" style="background-color:black; position:absolute; width: 100%; height: 100%; z-index: -1;"></div>
+    <header>
+        
+    </header>
     <h1>Algorithm visualizer</h1>
     <h3>Linear Search, Binary Search, Bubble Sort, Selection Sort</h3>
     <div class="controls">
-        <input type="number" id="dataset-size" class="ipt" placeholder="Dataset size (min 5)" />
-        <input type="number" id="search-number" class="ipt" placeholder="Enter number for search" />
-        <button id="randomize" class="btn" >Randomize</button>
-        <button id="generate-array" class="btn" >Generate Array</button>
-        <button id="linear-search" class="btn" >Linear Search</button>
-        <!-- <button id="binary-search" class="btn" onclick="doBinarySearch()">Binary Search</button> -->
-        <button id="bubble-sort" class="btn" >Bubble Sort</button>
-        <button id="selection-sort" class="btn" >Selection Sort</button>
+        <input type="number" id="dataset-size" class="ipt" placeholder="Dataset size (min 5)" onblur="handleDatasetSizeChange()"/>
+        <input type="number" id="search-number" class="ipt" placeholder="Enter number for search" onblur="handleSearchNumberChange()"/>
+        <button id="generate-array" class="btn" onclick="generateArray()">Generate Array</button>
+        <button id="linear-search" class="btn" onclick="doLinearSearch()">Linear Search</button>
+        <button id="bubble-sort" class="btn" onclick="doBubbleSort()">Bubble Sort</button>
+        <button id="selection-sort" class="btn" onclick="doSelectionSort()">Selection Sort</button>
     </div>
 
-    <div id="lines-container">
-
-    </div>
+    <div id="lines-container"></div>
 
     <div id="toast">
-        <div id="toast-img"><i id="toast-icon" class="fa fa-2x fa-check-circle" aria-hidden="true" style="color: #d0f0c0;"></i></div>
+        <div id="toast-img">
+            <i id="toast-icon" class="fa fa-2x fa-check-circle" aria-hidden="true" style="color: #d0f0c0;"></i>
+        </div>
         <div id="toast-desc"></div>
     </div>
 
     <script type="module" src="js/main.js"></script>
-   
+
+    <!-- Initialize Particles.js -->
+    <script src="js/particle-main.js"></script>
 </body>
 </html>
