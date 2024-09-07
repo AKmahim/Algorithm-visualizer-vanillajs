@@ -1,63 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithm visualizer - by Mahim</title>
-    <link rel="shortcut icon" href="./assets/img/bar-chart-2.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Particles.js CDN -->
-    <script src="js/lib/particles.min.js"></script>
-</head>
-<body>
-    <!-- Add a div for the particles.js background -->
-    <div id="particles-js" style=" position:absolute; width: 100vw; height: 100vh; z-index: -1;"></div>
-    <header class="header">
-        <div style="display: flex; justify-content: space-between;align-items: center;">
-            <div class="logo" style="margin-right: 2rem;">
-                <img width="50" height="50" src="./assets/img/bar-chart-2.png" alt="" srcset="">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Algorithm visualizer - by Mahim</title>
+        <link
+            rel="shortcut icon"
+            href="./assets/img/bar-chart-2.png"
+            type="image/x-icon"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <link rel="stylesheet" href="css/style.css" />
+        <!-- Particles.js CDN -->
+        <script src="js/lib/particles.min.js"></script>
+    </head>
+    <body>
+        <!-- Add a div for the particles.js background -->
+        <div
+            id="particles-js"
+            style="position: absolute; width: 100vw; height: 100vh; z-index: -1"
+        ></div>
+        <header class="header">
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                "
+            >
+                <div class="logo" style="margin-right: 2rem">
+                    <img
+                        width="50"
+                        height="50"
+                        src="./assets/img/bar-chart-2.png"
+                        alt=""
+                        srcset=""
+                    />
+                </div>
+                <div id="inputButton">
+                    <div>
+                        <input
+                            type="number"
+                            id="dataset-size"
+                            class="ipt"
+                            placeholder="Dataset size (min 5)"
+                            onblur="handleDatasetSizeChange()"
+                        />
+                        <input
+                            type="number"
+                            id="search-number"
+                            class="ipt"
+                            placeholder="Enter number for search"
+                            onblur="handleSearchNumberChange()"
+                        />
+                    </div>
+                    <button
+                        id="generate-array"
+                        class="btn"
+                        onclick="generateArray()"
+                    >
+                        Generate Array
+                    </button>
+                </div>
             </div>
             <div>
-                <input type="number" id="dataset-size" class="ipt" placeholder="Dataset size (min 5)" onblur="handleDatasetSizeChange()"/>
-                <input type="number" id="search-number" class="ipt" placeholder="Enter number for search" onblur="handleSearchNumberChange()"/>
-                <button id="generate-array" class="btn" onclick="generateArray()">Generate Array</button>
-
-            </div>
-        </div>
-        <div>
-            <div class="dropdown">
-                <button class="btn">Algorithms</button>
-                <div class="dropdown-content">
-                    <button id="linear-search" class="btn" onclick="doLinearSearch()">Linear Search</button>
-                    <!-- <button id="linear-search" class="btn" onclick="doBinarySearch()">Binary Search</button> -->
-                    <button id="bubble-sort" class="btn" onclick="doBubbleSort()">Bubble Sort</button>
-                    <button id="selection-sort" class="btn" onclick="doSelectionSort()">Selection Sort</button>
+                <div class="dropdown">
+                    <button class="btn">Algorithms</button>
+                    <div class="dropdown-content">
+                        <button
+                            id="linear-search"
+                            class="btn"
+                            onclick="doLinearSearch()"
+                        >
+                            Linear Search
+                        </button>
+                        <button
+                            id="linear-search"
+                            class="btn"
+                            onclick="doBinarySearch()"
+                        >
+                            Binary Search
+                        </button>
+                        <button
+                            id="bubble-sort"
+                            class="btn"
+                            onclick="doBubbleSort()"
+                        >
+                            Bubble Sort
+                        </button>
+                        <button
+                            id="selection-sort"
+                            class="btn"
+                            onclick="doSelectionSort()"
+                        >
+                            Selection Sort
+                        </button>
+                    </div>
                 </div>
-              </div>
+            </div>
+        </header>
+
+        <div class="line-container-parent">
+            <div id="lines-container"></div>
         </div>
-    </header>
-    
 
-    <div class="line-container-parent">
-        <div id="lines-container"></div>
-    </div>
-
-    <div id="toast">
-        <div id="toast-img">
-            <i id="toast-icon" class="fa fa-2x fa-check-circle" aria-hidden="true" style="color: #d0f0c0;"></i>
+        <div id="toast">
+            <div id="toast-img">
+                <i
+                    id="toast-icon"
+                    class="fa fa-2x fa-check-circle"
+                    aria-hidden="true"
+                    style="color: #d0f0c0"
+                ></i>
+            </div>
+            <div id="toast-desc"></div>
         </div>
-        <div id="toast-desc"></div>
-    </div>
-    <h1 style="text-align: center;margin-bottom: 20px;">Algorithm visualizer</h1>
+        <h1 style="text-align: center; margin-bottom: 20px">
+            Algorithm visualizer
+        </h1>
 
-    <footer style="display: flex;justify-content: center;align-items: center;color: white;font-size: 18px;">
-        <p>Develop by <span style="color: #000;font-weight: bold;">Mahim & Fazlul</span></p>
-    </footer>
+        <footer
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-size: 18px;
+            "
+        >
+            <p>
+                Develop by
+                <span style="color: #000; font-weight: bold"
+                    >Mahim & Fazlul</span
+                >
+            </p>
+        </footer>
 
-    <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/main.js"></script>
 
-    <!-- Initialize Particles.js -->
-    <script src="js/particle-main.js"></script>
-</body>
+        <!-- Initialize Particles.js -->
+        <script src="js/particle-main.js"></script>
+    </body>
 </html>
