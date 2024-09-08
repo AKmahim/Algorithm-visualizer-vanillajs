@@ -1,5 +1,5 @@
 function getBubbleSortAnimations(inputArr) {
-    let animationArr = []
+    let animationArr = [];
     let len = inputArr.length;
     let swapped;
     do {
@@ -8,14 +8,14 @@ function getBubbleSortAnimations(inputArr) {
             animationArr.push({
                 posI: i,
                 posJ: i + 1,
-                status: 'compare',
-            })
+                status: "compare",
+            });
             if (inputArr[i] > inputArr[i + 1]) {
                 animationArr.push({
                     posI: i,
                     posJ: i + 1,
-                    status: 'swap',
-                })  
+                    status: "swap",
+                });
                 let tmp = inputArr[i];
                 inputArr[i] = inputArr[i + 1];
                 inputArr[i + 1] = tmp;
@@ -25,6 +25,5 @@ function getBubbleSortAnimations(inputArr) {
     } while (swapped);
     return animationArr;
 }
-
 
 export default getBubbleSortAnimations;

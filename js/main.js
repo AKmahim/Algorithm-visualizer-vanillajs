@@ -11,9 +11,9 @@ import getLinearSearchAnimations from "./linearSearch.js";
 import getBubbleSortAnimations from "./bubbleSort.js";
 import getSelectionSortAnimations from "./selectionSort.js";
 import getBinarySearchAnimations from "./binarySearch.js";
-import getInsertionSortAnimations from "./insertionSort.js"
-import getMergeSortAnimations from "./mergeSort.js"
-import getQuickSortAnimations from "./quickSort.js"
+import getInsertionSortAnimations from "./insertionSort.js";
+import getMergeSortAnimations from "./mergeSort.js";
+import getQuickSortAnimations from "./quickSort.js";
 
 // Rest of your code...
 
@@ -244,6 +244,7 @@ async function doBinarySearch() {
     enableInteractions();
 }
 
+// ======================================= bubble sort ================================
 async function doBubbleSort() {
     console.log("okay");
 
@@ -320,6 +321,7 @@ async function doBubbleSort() {
     toast("success", "Finished sorting!");
 }
 
+// ======================================= selection sort ================================
 async function doSelectionSort() {
     if (!array.length) {
         toast("fail", "Generate Array!");
@@ -412,6 +414,7 @@ async function doSelectionSort() {
     toast("success", "Finished sorting!");
 }
 
+// ======================================= insertion sort ================================
 async function doInsertionSort() {
     if (!array.length) {
         toast("fail", "Generate Array!");
@@ -428,10 +431,33 @@ async function doInsertionSort() {
     let previous;
 
     for (let i = 0; i < animationArr.length; ++i) {
-        await sleep(500);
         const animation = animationArr[i];
 
-        if (animation.status === "swap") {
+        // Reset previous colors
+        if (previous) {
+            lineContainerChildElements[previous.posI].style.backgroundColor =
+                BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor =
+                BG_COLOR;
+        }
+
+        // Comparison step
+        if (animation.status === "compare") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                COMPARE_COLOR;
+        }
+        // Swap step
+        else if (animation.status === "swap") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                SELECT_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                SELECT_COLOR;
+
+            await sleep(500); // Pause before performing the swap
+
+            // Perform the swap
             let tempHeight =
                 lineContainerChildElements[animation.posJ].style.height;
             lineContainerChildElements[animation.posJ].style.height =
@@ -439,6 +465,7 @@ async function doInsertionSort() {
             lineContainerChildElements[animation.posI].style.height =
                 tempHeight;
 
+            // Update the displayed heights
             lineContainerChildElements[animation.posJ].innerText =
                 lineContainerChildElements[animation.posJ].style.height.replace(
                     "px",
@@ -450,12 +477,16 @@ async function doInsertionSort() {
                     ""
                 );
         }
+
+        previous = animation;
+        await sleep(500); // Pause between steps
     }
 
     enableInteractions();
     toast("success", "Insertion Sort Completed!");
 }
 
+// ======================================= merge sort ================================
 async function doMergeSort() {
     if (!array.length) {
         toast("fail", "Generate Array!");
@@ -469,18 +500,57 @@ async function doMergeSort() {
         document.getElementById("lines-container").children
     );
     let animationArr = getMergeSortAnimations(array);
+    let previous;
 
     for (let i = 0; i < animationArr.length; i++) {
-        await sleep(500);
-        let animation = animationArr[i];
-        lineContainerChildElements[animation.posI].style.height =
-            animation.posJ + "px";
+        const animation = animationArr[i];
+
+        // Reset color from previous step if needed
+        if (previous && previous.status === "compare") {
+            lineContainerChildElements[previous.posI].style.backgroundColor =
+                BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor =
+                BG_COLOR;
+        }
+
+        // Comparison step
+        if (animation.status === "compare") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                COMPARE_COLOR;
+        }
+
+        // Merging step
+        else if (animation.status === "merge") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                SELECT_COLOR;
+
+            // Apply the height change (merge step)
+            await sleep(500); // Delay before applying the height change for better visualization
+            lineContainerChildElements[animation.posI].style.height =
+                animation.height + "px";
+            lineContainerChildElements[animation.posI].innerText =
+                animation.height;
+        }
+
+        previous = animation;
+        await sleep(500); // Pause between steps for visibility
+    }
+
+    // Reset colors at the end
+    if (previous && previous.status === "compare") {
+        lineContainerChildElements[previous.posI].style.backgroundColor =
+            BG_COLOR;
+        lineContainerChildElements[previous.posJ].style.backgroundColor =
+            BG_COLOR;
     }
 
     enableInteractions();
     toast("success", "Merge Sort Completed!");
 }
 
+// ======================================= quick sort ================================
 async function doQuickSort() {
     if (!array.length) {
         toast("fail", "Generate Array!");
@@ -494,19 +564,44 @@ async function doQuickSort() {
         document.getElementById("lines-container").children
     );
     let animationArr = getQuickSortAnimations(array);
+    let previous;
 
     for (let i = 0; i < animationArr.length; i++) {
-        await sleep(500);
-        let animation = animationArr[i];
+        const animation = animationArr[i];
 
-        if (animation.status === "swap") {
-            let tempHeight =
+        // Reset color from previous iteration
+        if (previous) {
+            lineContainerChildElements[previous.posI].style.backgroundColor =
+                BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor =
+                BG_COLOR;
+        }
+
+        // Comparison step
+        if (animation.status === "compare") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                COMPARE_COLOR;
+        }
+        // Swap step
+        else if (animation.status === "swap") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                SELECT_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                SELECT_COLOR;
+
+            await sleep(500); // Pause to show color change before swapping
+
+            // Perform the swap
+            const tempHeight =
                 lineContainerChildElements[animation.posI].style.height;
             lineContainerChildElements[animation.posI].style.height =
                 lineContainerChildElements[animation.posJ].style.height;
             lineContainerChildElements[animation.posJ].style.height =
                 tempHeight;
 
+            // Update the displayed numbers
             lineContainerChildElements[animation.posI].innerText =
                 lineContainerChildElements[animation.posI].style.height.replace(
                     "px",
@@ -518,6 +613,9 @@ async function doQuickSort() {
                     ""
                 );
         }
+
+        previous = animation;
+        await sleep(500); // Pause between each step for visibility
     }
 
     enableInteractions();
