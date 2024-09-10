@@ -13,13 +13,23 @@ const COMPARE_COLOR = '#a9d8f6'
 const FOUND_COLOR = 'green'
 const SELECT_COLOR = 'red'
 
-let datasetSize, searchNumber, array = [];
+let datasetSize,dataArray, searchNumber, array = [];
 
 
 function handleDatasetSizeChange() {
     console.log(document.getElementById('dataset-size').value);
+    let inputDataString = document.getElementById('dataset-size').value;
+    // dataArray = inputDataString.split(',');
     
-    datasetSize = Number(document.getElementById('dataset-size').value)
+    dataArray = inputDataString.split(',')
+    .filter(value => !isNaN(parseFloat(value)))
+    .map(parseFloat);
+    
+    console.log(typeof(dataArray[0]));
+    
+    datasetSize = Number(dataArray.length)
+    console.log(datasetSize);
+    
     // datasetSize = 15;
     if (!datasetSize || datasetSize < 5) {
         toast('fail', 'Dataset size must be minimum 5')
@@ -40,6 +50,7 @@ function generateArray() {
         document.getElementById('dataset-size').focus()
         return
     }
+    document.getElementById('dataset-size').value = '';
     let lineContainerElement = document.getElementById('lines-container')
 
     // Remove Present Children
@@ -50,9 +61,13 @@ function generateArray() {
     }
     array = []
 
+    console.log('datasetsize form generate array',datasetSize);
+    console.log('dataArray from generate array',dataArray);
+    
+    
     // Add new Children
     for (let i = 0; i < datasetSize; ++i) {
-        let randomNumber = getRandomNumber(5, 500)
+        let randomNumber = dataArray[i];
         array.push(randomNumber)
 
         let lineElement = document.createElement('div')
@@ -208,7 +223,7 @@ async function doBubbleSort() {
     disableInteractions();
 
     let lineContainerChildElements = Array.from(document.getElementById('lines-container').children);
-    console.log(lineContainerChildElements);
+    // console.log(lineContainerChildElements);
 
     let animationArr = getBubbleSortAnimations(array);
     let previous;
