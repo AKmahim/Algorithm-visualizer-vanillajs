@@ -40,6 +40,38 @@ function handleDatasetSizeChange() {
     }
 }
 
+// customer array function
+function handleCustomArrayChange() {
+    const customArrayInput = document.getElementById("custom-array").value;
+
+    // Split the input string by commas, trim spaces, and convert to numbers
+    array = customArrayInput.split(",").map((item) => {
+        let num = Number(item.trim());
+        if (isNaN(num)) {
+            toast(
+                "fail",
+                "Invalid input. Please enter numbers separated by commas."
+            );
+            return null;
+        }
+        return num;
+    });
+
+    if (array.includes(null)) {
+        array = [];
+        return;
+    }
+
+    // Validate array size
+    if (array.length < 5) {
+        toast("fail", "Array must contain at least 5 numbers.");
+        return;
+    }
+
+    // Render the custom array
+    renderArray();
+}
+
 function handleSearchNumberChange() {
     searchNumber =
         Number(document.getElementById("search-number").value) >= 5
@@ -79,7 +111,32 @@ function generateArray() {
 
         lineContainerElement.appendChild(lineElement);
     }
+    renderArray();
+
 }
+
+function renderArray() {
+    let lineContainerElement = document.getElementById("lines-container");
+
+    // Remove Present Children
+    while (lineContainerElement.firstChild) {
+        lineContainerElement.removeChild(lineContainerElement.firstChild);
+    }
+
+    // Add new bars
+    array.forEach(number => {
+        let lineElement = document.createElement("div");
+        lineElement.className = "bar";
+        lineElement.style.height = number + "px";
+        lineElement.innerText = number;
+        lineElement.style.textAlign = "center";
+        lineElement.style.width = "50px";
+        lineElement.style.paddingBottom = "10px";
+
+        lineContainerElement.appendChild(lineElement);
+    });
+}
+
 
 // =================================== linear search =========================
 async function doLinearSearch() {
@@ -622,6 +679,7 @@ async function doQuickSort() {
     toast("success", "Quick Sort Completed!");
 }
 
+window.handleCustomArrayChange = handleCustomArrayChange;
 window.handleDatasetSizeChange = handleDatasetSizeChange;
 window.handleSearchNumberChange = handleSearchNumberChange;
 window.generateArray = generateArray;

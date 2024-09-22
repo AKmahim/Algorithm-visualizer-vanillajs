@@ -42,6 +42,15 @@
                 </div>
                 <div id="inputButton">
                     <div>
+                        <!-- customer array -->
+                        <input
+                            type="text"
+                            id="custom-array"
+                            class="ipt"
+                            placeholder="Enter custom array (e.g., 1, 2, 3)"
+                            onblur="handleCustomArrayChange()"
+                        />
+                        <!-- auto array -->
                         <input
                             type="number"
                             id="dataset-size"
@@ -49,6 +58,7 @@
                             placeholder="Dataset size (min 5)"
                             onblur="handleDatasetSizeChange()"
                         />
+                        <!-- search number -->
                         <input
                             type="number"
                             id="search-number"
@@ -153,9 +163,9 @@
             "
         >
             <p>
-                Develop by
+                @Developed by
                 <span style="color: #000; font-weight: bold"
-                    >Mahim & Fazlul</span
+                    >Mahim & Hridoy</span
                 >
             </p>
         </footer>
