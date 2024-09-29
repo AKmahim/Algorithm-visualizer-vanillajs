@@ -16,9 +16,12 @@ function setInactiveInteractions(active) {
     document.getElementById('search-number').disabled = active
     document.getElementById('generate-array').disabled = active
     document.getElementById('linear-search').disabled = active
-    // document.getElementById('binary-search').disabled = active
+    document.getElementById('binary-search').disabled = active
     document.getElementById('bubble-sort').disabled = active
     document.getElementById('selection-sort').disabled = active
+    document.getElementById('insertion-sort').disabled = active
+    document.getElementById('merge-sort').disabled = active
+    document.getElementById('quick-sort').disabled = active
 }
 
 function enableInteractions() {
