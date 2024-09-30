@@ -52,10 +52,11 @@
                         />
                         <!-- auto array -->
                         <input
-                            type="number"
+                            style="width: 600px"
+                            type="text"
                             id="dataset-size"
                             class="ipt"
-                            placeholder="Dataset size (min 5)"
+                            placeholder="Enter Array value comma separated  (min 5 and value must within 5-500)"
                             onblur="handleDatasetSizeChange()"
                         />
                         <!-- search number -->
@@ -88,7 +89,7 @@
                             Linear Search
                         </button>
                         <button
-                            id="linear-search"
+                            id="binary-search"
                             class="btn"
                             onclick="doBinarySearch()"
                         >
@@ -149,6 +150,12 @@
             </div>
             <div id="toast-desc"></div>
         </div>
+        <!-- show searching or sorting results as a text -->
+        <div id="result-container">
+            <h2 id="result"></h2>
+            <h4 id="execution-time"></h4>
+        </div>
+
         <h1 style="text-align: center; margin-bottom: 20px">
             Algorithm visualizer
         </h1>

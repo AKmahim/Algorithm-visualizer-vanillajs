@@ -1,19 +1,9 @@
 // console.log('helo');
-import {
-    getRandomNumber,
-    sleep,
-    setInactiveInteractions,
-    enableInteractions,
-    disableInteractions,
-    toast,
-} from "./utils.js";
-import getLinearSearchAnimations from "./linearSearch.js";
-import getBubbleSortAnimations from "./bubbleSort.js";
-import getSelectionSortAnimations from "./selectionSort.js";
-import getBinarySearchAnimations from "./binarySearch.js";
-import getInsertionSortAnimations from "./insertionSort.js";
-import getMergeSortAnimations from "./mergeSort.js";
-import getQuickSortAnimations from "./quickSort.js";
+import { getRandomNumber, sleep, setInactiveInteractions, enableInteractions, disableInteractions, toast } from './utils.js';
+import  getLinearSearchAnimations  from './linearSearch.js';
+import  getBubbleSortAnimations  from './bubbleSort.js';
+import  getSelectionSortAnimations  from './selectionSort.js';
+import getBinarySearchAnimations from './binarySearch.js';
 
 // Rest of your code...
 
@@ -23,14 +13,13 @@ const COMPARE_COLOR = "#a9d8f6";
 const FOUND_COLOR = "green";
 const SELECT_COLOR = "red";
 
-let datasetSize,
-    searchNumber,
-    array = [];
+let datasetSize, searchNumber, array = [];
+
 
 function handleDatasetSizeChange() {
-    console.log(document.getElementById("dataset-size").value);
-
-    datasetSize = Number(document.getElementById("dataset-size").value);
+    console.log(document.getElementById('dataset-size').value);
+    
+    datasetSize = Number(document.getElementById('dataset-size').value)
     // datasetSize = 15;
     if (!datasetSize || datasetSize < 5) {
         toast("fail", "Dataset size must be minimum 5");
@@ -82,11 +71,11 @@ function handleSearchNumberChange() {
 
 function generateArray() {
     if (!datasetSize || datasetSize < 5) {
-        toast("fail", "Input dataset size must be minimum 5");
-        document.getElementById("dataset-size").focus();
-        return;
+        toast('fail', 'Input dataset size must be minimum 5')
+        document.getElementById('dataset-size').focus()
+        return
     }
-    let lineContainerElement = document.getElementById("lines-container");
+    let lineContainerElement = document.getElementById('lines-container')
 
     // Remove Present Children
     let child = lineContainerElement.lastElementChild;
@@ -94,56 +83,33 @@ function generateArray() {
         lineContainerElement.removeChild(child);
         child = lineContainerElement.lastElementChild;
     }
-    array = [];
+    array = []
 
     // Add new Children
     for (let i = 0; i < datasetSize; ++i) {
-        let randomNumber = getRandomNumber(5, 500);
-        array.push(randomNumber);
+        let randomNumber = getRandomNumber(5, 500)
+        array.push(randomNumber)
 
-        let lineElement = document.createElement("div");
-        lineElement.className = "bar";
-        lineElement.style.height = randomNumber + "px";
-        lineElement.innerText = randomNumber;
-        lineElement.style.textAlign = "center";
-        lineElement.style.width = "50px";
-        lineElement.style.paddingBottom = "10px";
-
-        lineContainerElement.appendChild(lineElement);
+        let lineElement = document.createElement('div')
+        lineElement.className = "bar"
+        lineElement.style.height = randomNumber + 'px'
+        lineElement.innerText = randomNumber
+        lineElement.style.textAlign = 'center'
+        lineElement.style.width = '50px'
+        lineElement.style.paddingBottom = '10px'
+        
+        lineContainerElement.appendChild(lineElement)
     }
-    renderArray();
-
-}
-
-function renderArray() {
-    let lineContainerElement = document.getElementById("lines-container");
-
-    // Remove Present Children
-    while (lineContainerElement.firstChild) {
-        lineContainerElement.removeChild(lineContainerElement.firstChild);
-    }
-
-    // Add new bars
-    array.forEach(number => {
-        let lineElement = document.createElement("div");
-        lineElement.className = "bar";
-        lineElement.style.height = number + "px";
-        lineElement.innerText = number;
-        lineElement.style.textAlign = "center";
-        lineElement.style.width = "50px";
-        lineElement.style.paddingBottom = "10px";
-
-        lineContainerElement.appendChild(lineElement);
-    });
 }
 
 
 // =================================== linear search =========================
 async function doLinearSearch() {
+    const startTime = getCurrentTime();
     if (!searchNumber) {
-        toast("fail", "Enter search number >= 5!");
-        document.getElementById("search-number").focus();
-        return;
+        toast('fail', 'Enter search number >= 5!')
+        document.getElementById('search-number').focus()
+        return
     }
 
     if (!array.length) {
@@ -169,16 +135,14 @@ async function doLinearSearch() {
         }
 
         if (animation.found === true) {
-            lineContainerChildElements[animation.pos].style.backgroundColor =
-                FOUND_COLOR;
-            toast("success", "Found on position: " + animation.pos);
-            break;
+            lineContainerChildElements[animation.pos].style.backgroundColor = FOUND_COLOR
+            toast('success', 'Found on position: ' + animation.pos)
+            break
         } else if (animation.found === false) {
-            lineContainerChildElements[animation.pos].style.backgroundColor =
-                BG_COLOR;
-            toast("fail", "Not found");
-            enableInteractions();
-            break;
+            lineContainerChildElements[animation.pos].style.backgroundColor = BG_COLOR
+            toast('fail', 'Not found')
+            enableInteractions()
+            break
         } else {
             lineContainerChildElements[animation.pos].style.backgroundColor =
                 SELECT_COLOR;
@@ -191,6 +155,7 @@ async function doLinearSearch() {
 
 // ======================================= binary search ================================
 async function doBinarySearch() {
+    const startTime = getCurrentTime();
     if (!searchNumber) {
         toast("fail", "Enter search number!");
         document.getElementById("search-number").focus();
@@ -261,34 +226,20 @@ async function doBinarySearch() {
             }
         }
 
-        if (animation.status === "found") {
-            lineContainerChildElements[
-                animation.midIndex
-            ].style.backgroundColor = FOUND_COLOR;
-            toast("success", "Found at index: " + animation.midIndex);
-            break;
-        } else if (animation.status === "not-found") {
-            lineContainerChildElements[
-                animation.lowIndex
-            ].style.backgroundColor = BG_COLOR;
-            lineContainerChildElements[
-                animation.midIndex
-            ].style.backgroundColor = BG_COLOR;
-            animation.highIndex >= 0 &&
-                (lineContainerChildElements[
-                    animation.highIndex
-                ].style.backgroundColor = BG_COLOR);
-            toast("fail", "Not Found");
-            break;
-        } else if (animation.status === "compare") {
-            lineContainerChildElements[
-                animation.lowIndex
-            ].style.backgroundColor = COMPARE_COLOR;
-            animation.highIndex >= 0 &&
-                (lineContainerChildElements[
-                    animation.highIndex
-                ].style.backgroundColor = COMPARE_COLOR);
-            await sleep(1000);
+        if (animation.status === 'found') {
+            lineContainerChildElements[animation.midIndex].style.backgroundColor = FOUND_COLOR
+            toast('success', 'Found at index: ' + animation.midIndex)
+            break
+        } else if (animation.status === 'not-found') {
+            lineContainerChildElements[animation.lowIndex].style.backgroundColor = BG_COLOR
+            lineContainerChildElements[animation.midIndex].style.backgroundColor = BG_COLOR
+            animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = BG_COLOR)
+            toast('fail', 'Not Found')
+            break
+        } else if (animation.status === 'compare') {
+            lineContainerChildElements[animation.lowIndex].style.backgroundColor = COMPARE_COLOR
+            animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = COMPARE_COLOR)
+            await sleep(1000)
         } else {
             lineContainerChildElements[
                 animation.midIndex
@@ -301,9 +252,9 @@ async function doBinarySearch() {
     enableInteractions();
 }
 
-// ======================================= bubble sort ================================
+
 async function doBubbleSort() {
-    console.log("okay");
+    console.log('okay');
 
     if (!array.length) {
         toast("fail", "Generate Array!");
@@ -313,9 +264,7 @@ async function doBubbleSort() {
 
     disableInteractions();
 
-    let lineContainerChildElements = Array.from(
-        document.getElementById("lines-container").children
-    );
+    let lineContainerChildElements = Array.from(document.getElementById('lines-container').children);
     console.log(lineContainerChildElements);
 
     let animationArr = getBubbleSortAnimations(array);
@@ -375,11 +324,11 @@ async function doBubbleSort() {
     }
 
     enableInteractions();
-    toast("success", "Finished sorting!");
+    toast('success', 'Finished sorting!');
 }
 
-// ======================================= selection sort ================================
 async function doSelectionSort() {
+    const startTime = getCurrentTime();
     if (!array.length) {
         toast("fail", "Generate Array!");
         document.getElementById("generate-array").focus();
@@ -456,230 +405,19 @@ async function doSelectionSort() {
 
     // Reset the colors after sorting is done
     if (previous) {
-        Number.isInteger(previous.min) &&
-            (lineContainerChildElements[previous.min].style.backgroundColor =
-                BG_COLOR);
-        Number.isInteger(previous.j) &&
-            (lineContainerChildElements[previous.j].style.backgroundColor =
-                BG_COLOR);
-        Number.isInteger(previous.i) &&
-            (lineContainerChildElements[previous.i].style.backgroundColor =
-                BG_COLOR);
+        Number.isInteger(previous.min) && (lineContainerChildElements[previous.min].style.backgroundColor = BG_COLOR);
+        Number.isInteger(previous.j) && (lineContainerChildElements[previous.j].style.backgroundColor = BG_COLOR);
+        Number.isInteger(previous.i) && (lineContainerChildElements[previous.i].style.backgroundColor = BG_COLOR);
     }
 
     enableInteractions();
-    toast("success", "Finished sorting!");
+    toast('success', 'Finished sorting!');
 }
 
-// ======================================= insertion sort ================================
-async function doInsertionSort() {
-    if (!array.length) {
-        toast("fail", "Generate Array!");
-        document.getElementById("generate-array").focus();
-        return;
-    }
 
-    disableInteractions();
 
-    let lineContainerChildElements = Array.from(
-        document.getElementById("lines-container").children
-    );
-    let animationArr = getInsertionSortAnimations(array);
-    let previous;
 
-    for (let i = 0; i < animationArr.length; ++i) {
-        const animation = animationArr[i];
 
-        // Reset previous colors
-        if (previous) {
-            lineContainerChildElements[previous.posI].style.backgroundColor =
-                BG_COLOR;
-            lineContainerChildElements[previous.posJ].style.backgroundColor =
-                BG_COLOR;
-        }
-
-        // Comparison step
-        if (animation.status === "compare") {
-            lineContainerChildElements[animation.posI].style.backgroundColor =
-                COMPARE_COLOR;
-            lineContainerChildElements[animation.posJ].style.backgroundColor =
-                COMPARE_COLOR;
-        }
-        // Swap step
-        else if (animation.status === "swap") {
-            lineContainerChildElements[animation.posI].style.backgroundColor =
-                SELECT_COLOR;
-            lineContainerChildElements[animation.posJ].style.backgroundColor =
-                SELECT_COLOR;
-
-            await sleep(500); // Pause before performing the swap
-
-            // Perform the swap
-            let tempHeight =
-                lineContainerChildElements[animation.posJ].style.height;
-            lineContainerChildElements[animation.posJ].style.height =
-                lineContainerChildElements[animation.posI].style.height;
-            lineContainerChildElements[animation.posI].style.height =
-                tempHeight;
-
-            // Update the displayed heights
-            lineContainerChildElements[animation.posJ].innerText =
-                lineContainerChildElements[animation.posJ].style.height.replace(
-                    "px",
-                    ""
-                );
-            lineContainerChildElements[animation.posI].innerText =
-                lineContainerChildElements[animation.posI].style.height.replace(
-                    "px",
-                    ""
-                );
-        }
-
-        previous = animation;
-        await sleep(500); // Pause between steps
-    }
-
-    enableInteractions();
-    toast("success", "Insertion Sort Completed!");
-}
-
-// ======================================= merge sort ================================
-async function doMergeSort() {
-    if (!array.length) {
-        toast("fail", "Generate Array!");
-        document.getElementById("generate-array").focus();
-        return;
-    }
-
-    disableInteractions();
-
-    let lineContainerChildElements = Array.from(
-        document.getElementById("lines-container").children
-    );
-    let animationArr = getMergeSortAnimations(array);
-    let previous;
-
-    for (let i = 0; i < animationArr.length; i++) {
-        const animation = animationArr[i];
-
-        // Reset color from previous step if needed
-        if (previous && previous.status === "compare") {
-            lineContainerChildElements[previous.posI].style.backgroundColor =
-                BG_COLOR;
-            lineContainerChildElements[previous.posJ].style.backgroundColor =
-                BG_COLOR;
-        }
-
-        // Comparison step
-        if (animation.status === "compare") {
-            lineContainerChildElements[animation.posI].style.backgroundColor =
-                COMPARE_COLOR;
-            lineContainerChildElements[animation.posJ].style.backgroundColor =
-                COMPARE_COLOR;
-        }
-
-        // Merging step
-        else if (animation.status === "merge") {
-            lineContainerChildElements[animation.posI].style.backgroundColor =
-                SELECT_COLOR;
-
-            // Apply the height change (merge step)
-            await sleep(500); // Delay before applying the height change for better visualization
-            lineContainerChildElements[animation.posI].style.height =
-                animation.height + "px";
-            lineContainerChildElements[animation.posI].innerText =
-                animation.height;
-        }
-
-        previous = animation;
-        await sleep(500); // Pause between steps for visibility
-    }
-
-    // Reset colors at the end
-    if (previous && previous.status === "compare") {
-        lineContainerChildElements[previous.posI].style.backgroundColor =
-            BG_COLOR;
-        lineContainerChildElements[previous.posJ].style.backgroundColor =
-            BG_COLOR;
-    }
-
-    enableInteractions();
-    toast("success", "Merge Sort Completed!");
-}
-
-// ======================================= quick sort ================================
-async function doQuickSort() {
-    if (!array.length) {
-        toast("fail", "Generate Array!");
-        document.getElementById("generate-array").focus();
-        return;
-    }
-
-    disableInteractions();
-
-    let lineContainerChildElements = Array.from(
-        document.getElementById("lines-container").children
-    );
-    let animationArr = getQuickSortAnimations(array);
-    let previous;
-
-    for (let i = 0; i < animationArr.length; i++) {
-        const animation = animationArr[i];
-
-        // Reset color from previous iteration
-        if (previous) {
-            lineContainerChildElements[previous.posI].style.backgroundColor =
-                BG_COLOR;
-            lineContainerChildElements[previous.posJ].style.backgroundColor =
-                BG_COLOR;
-        }
-
-        // Comparison step
-        if (animation.status === "compare") {
-            lineContainerChildElements[animation.posI].style.backgroundColor =
-                COMPARE_COLOR;
-            lineContainerChildElements[animation.posJ].style.backgroundColor =
-                COMPARE_COLOR;
-        }
-        // Swap step
-        else if (animation.status === "swap") {
-            lineContainerChildElements[animation.posI].style.backgroundColor =
-                SELECT_COLOR;
-            lineContainerChildElements[animation.posJ].style.backgroundColor =
-                SELECT_COLOR;
-
-            await sleep(500); // Pause to show color change before swapping
-
-            // Perform the swap
-            const tempHeight =
-                lineContainerChildElements[animation.posI].style.height;
-            lineContainerChildElements[animation.posI].style.height =
-                lineContainerChildElements[animation.posJ].style.height;
-            lineContainerChildElements[animation.posJ].style.height =
-                tempHeight;
-
-            // Update the displayed numbers
-            lineContainerChildElements[animation.posI].innerText =
-                lineContainerChildElements[animation.posI].style.height.replace(
-                    "px",
-                    ""
-                );
-            lineContainerChildElements[animation.posJ].innerText =
-                lineContainerChildElements[animation.posJ].style.height.replace(
-                    "px",
-                    ""
-                );
-        }
-
-        previous = animation;
-        await sleep(500); // Pause between each step for visibility
-    }
-
-    enableInteractions();
-    toast("success", "Quick Sort Completed!");
-}
-
-window.handleCustomArrayChange = handleCustomArrayChange;
 window.handleDatasetSizeChange = handleDatasetSizeChange;
 window.handleSearchNumberChange = handleSearchNumberChange;
 window.generateArray = generateArray;
