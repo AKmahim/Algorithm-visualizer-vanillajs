@@ -15,7 +15,28 @@ body {
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #514A9D, #24C6DC);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    position: relative;
 
+}
+
+#result-container{
+    position: absolute;
+    right: 50px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    gap: 5px;
+}
+
+#result {
+    color: #5C258D;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#execution-time{
+    color: maroon;
 }
 
 .line-container-parent {
@@ -61,7 +82,7 @@ body {
     align-items: center;
 }
 
-#dataset-size{
+#dataset-size {
     margin-bottom: 5px;
 }
 
