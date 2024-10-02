@@ -32,6 +32,7 @@ body {
     row-gap: 5px;
 }
 #execution-time-list li {
+    font-size: large;
     color: rgb(255, 200, 160);
 }
 #execution-time-list li b {
