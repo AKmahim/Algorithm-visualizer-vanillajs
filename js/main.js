@@ -595,7 +595,7 @@ async function doMergeSort() {
     // toast("success", "Merge Sort Completed!");
     const endTime = getCurrentTime();
     const duration = calculateTimeDifference(startTime, endTime);
-    result("Merge Sort Completed!", duration);
+    result("Merge Sort Completed!!", duration);
 }
 
 // ======================================= quick sort ================================
