@@ -1,4 +1,3 @@
-// console.log('helo');
 import {
     sleep,
     enableInteractions,
@@ -7,6 +6,7 @@ import {
     result,
     getCurrentTime,
     calculateTimeDifference,
+    exectuinTimesArray,
 } from "./utils.js";
 import getLinearSearchAnimations from "./linearSearch.js";
 import getBubbleSortAnimations from "./bubbleSort.js";
@@ -15,8 +15,6 @@ import getBinarySearchAnimations from "./binarySearch.js";
 import getInsertionSortAnimations from "./insertionSort.js";
 import getMergeSortAnimations from "./mergeSort.js";
 import getQuickSortAnimations from "./quickSort.js";
-
-// Rest of your code...
 
 // constants
 const BG_COLOR = "#b978ec";
@@ -28,6 +26,9 @@ let datasetSize,
     dataArray,
     searchNumber,
     array = [];
+
+// store exectuin times with their execution name in a variable array
+const executionTimes = [];
 
 function handleDatasetSizeChange() {
     console.log(document.getElementById("dataset-size").value);
@@ -137,6 +138,13 @@ async function doLinearSearch() {
             const endTime = getCurrentTime();
             const duration = calculateTimeDifference(startTime, endTime);
             result("Found at index: " + animation.pos, duration);
+            const linearSearchExecution = {
+                type: "Linear Search",
+                executionTime: duration,
+            };
+            executionTimes.push(linearSearchExecution);
+            exectuinTimesArray(executionTimes);
+            console.log(executionTimes);
             break;
         } else if (animation.found === false) {
             lineContainerChildElements[animation.pos].style.backgroundColor =
@@ -145,6 +153,13 @@ async function doLinearSearch() {
             const failedTime = getCurrentTime();
             const duration = calculateTimeDifference(startTime, failedTime);
             result("Not found", duration);
+            const linearSearchExecution = {
+                type: "Linear Search",
+                executionTime: duration,
+            };
+            executionTimes.push(linearSearchExecution);
+            exectuinTimesArray(executionTimes);
+            console.log(executionTimes);
             enableInteractions();
             break;
         } else {
@@ -238,6 +253,13 @@ async function doBinarySearch() {
             const endTime = getCurrentTime();
             const duration = calculateTimeDifference(startTime, endTime);
             result("Found at index: " + animation.midIndex, duration);
+            const binarySearchExecution = {
+                type: "Binary Search",
+                executionTime: duration,
+            };
+            executionTimes.push(binarySearchExecution);
+            exectuinTimesArray(executionTimes);
+            console.log(executionTimes);
             break;
         } else if (animation.status === "not-found") {
             lineContainerChildElements[
@@ -254,6 +276,13 @@ async function doBinarySearch() {
             const failedTime = getCurrentTime();
             const duration = calculateTimeDifference(startTime, failedTime);
             result("Not Found", duration);
+            const binarySearchExecution = {
+                type: "Binary Search",
+                executionTime: duration,
+            };
+            executionTimes.push(binarySearchExecution);
+            exectuinTimesArray(executionTimes);
+            console.log(executionTimes);
             break;
         } else if (animation.status === "compare") {
             lineContainerChildElements[
@@ -355,6 +384,13 @@ async function doBubbleSort() {
     const endTime = getCurrentTime();
     const duration = calculateTimeDifference(startTime, endTime);
     result("Finished bubble sorting!", duration);
+    const bubbleSortExecution = {
+        type: "Bubble Sort",
+        executionTime: duration,
+    };
+    executionTimes.push(bubbleSortExecution);
+    exectuinTimesArray(executionTimes);
+    console.log(executionTimes);
 }
 
 // =========================================== selection sort ======================
@@ -452,6 +488,13 @@ async function doSelectionSort() {
     const endTime = getCurrentTime();
     const duration = calculateTimeDifference(startTime, endTime);
     result("Finished selection sorting!", duration);
+    const selectionSortExecution = {
+        type: "Selection Sort",
+        executionTime: duration,
+    };
+    executionTimes.push(selectionSortExecution);
+    exectuinTimesArray(executionTimes);
+    console.log(executionTimes);
 }
 
 // ======================================= insertion sort ================================
@@ -528,6 +571,13 @@ async function doInsertionSort() {
     const endTime = getCurrentTime();
     const duration = calculateTimeDifference(startTime, endTime);
     result("Insertion Sort Completed!", duration);
+    const insertionSortExecution = {
+        type: "Insertion Sort",
+        executionTime: duration,
+    };
+    executionTimes.push(insertionSortExecution);
+    exectuinTimesArray(executionTimes);
+    console.log(executionTimes);
 }
 
 // ======================================= merge sort ================================
@@ -595,7 +645,14 @@ async function doMergeSort() {
     // toast("success", "Merge Sort Completed!");
     const endTime = getCurrentTime();
     const duration = calculateTimeDifference(startTime, endTime);
-    result("Merge Sort Completed!!", duration);
+    result("Merge Sort Completed!", duration);
+    const mergeSortExecution = {
+        type: "Merge Sort",
+        executionTime: duration,
+    };
+    executionTimes.push(mergeSortExecution);
+    exectuinTimesArray(executionTimes);
+    console.log(executionTimes);
 }
 
 // ======================================= quick sort ================================
@@ -672,6 +729,13 @@ async function doQuickSort() {
     const endTime = getCurrentTime();
     const duration = calculateTimeDifference(startTime, endTime);
     result("Quick Sort Completed!", duration);
+    const quickSortExecution = {
+        type: "Quick Sort",
+        executionTime: duration,
+    };
+    executionTimes.push(quickSortExecution);
+    exectuinTimesArray(executionTimes);
+    console.log(executionTimes);
 }
 
 window.handleDatasetSizeChange = handleDatasetSizeChange;
