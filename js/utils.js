@@ -51,10 +51,10 @@ function toast(type, desc) {
 
 // get result value
 function result(desc, time) {
-    let container = document.getElementById("result-container")
+    let container = document.getElementById("result-container");
     let result = document.getElementById("result");
     let executionTime = document.getElementById("execution-time");
-    result.className ="show";
+    container.className = "show";
     result.className = "show";
     result.innerText = desc;
     executionTime.className = "show";
@@ -92,6 +92,15 @@ function calculateTimeDifference(startTime, endTime) {
     return Math.abs(differenceInSeconds);
 }
 
+function exectuinTimesArray(timesArray) {
+    console.log("from utils", timesArray);
+    const listItems = timesArray.map((item) => {
+        return `<li><b>${item.type}</b> : <i>${item.executionTime}</i> seconds </li>,`;
+    });
+    document.getElementById("execution-time-list").innerHTML =
+        listItems.join("");
+}
+
 export {
     getRandomNumber,
     sleep,
@@ -102,4 +111,5 @@ export {
     result,
     getCurrentTime,
     calculateTimeDifference,
+    exectuinTimesArray,
 };
