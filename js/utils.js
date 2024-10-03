@@ -94,8 +94,8 @@ function calculateTimeDifference(startTime, endTime) {
 
 function exectuinTimesArray(timesArray) {
     console.log("from utils", timesArray);
-    const listItems = timesArray.map((item) => {
-        return `<li><b>${item.type}</b> : <i>${item.executionTime}</i> seconds </li>,`;
+    const listItems = timesArray.map((item, index) => {
+        return `<li><b>${index+1}) ${item.type}</b> : <i>${item.executionTime}</i> seconds </li>,`;
     });
     document.getElementById("execution-time-list").innerHTML =
         listItems.join("");
