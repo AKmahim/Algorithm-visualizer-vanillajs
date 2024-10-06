@@ -1,11 +1,9 @@
-// console.log('helo');
-import { getRandomNumber, sleep, setInactiveInteractions, enableInteractions, disableInteractions, toast } from './utils.js';
+import { getRandomNumber, sleep, setInactiveInteractions, enableInteractions, disableInteractions, toast     exectuinTimesArray,
+} from './utils.js';
 import  getLinearSearchAnimations  from './linearSearch.js';
 import  getBubbleSortAnimations  from './bubbleSort.js';
 import  getSelectionSortAnimations  from './selectionSort.js';
 import getBinarySearchAnimations from './binarySearch.js';
-
-// Rest of your code...
 
 // constants
 const BG_COLOR = "#b978ec";
@@ -15,6 +13,9 @@ const SELECT_COLOR = "red";
 
 let datasetSize, searchNumber, array = [];
 
+
+// store exectuin times with their execution name in a variable array
+const executionTimes = [];
 
 function handleDatasetSizeChange() {
     console.log(document.getElementById('dataset-size').value);
@@ -135,14 +136,22 @@ async function doLinearSearch() {
         }
 
         if (animation.found === true) {
-            lineContainerChildElements[animation.pos].style.backgroundColor = FOUND_COLOR
-            toast('success', 'Found on position: ' + animation.pos)
-            break
+            lineContainerChildElements[animation.pos].style.backgroundColor =
+                FOUND_COLOR;
+            // toast("success", "Found on position: " + animation.pos);
+            const endTime = getCurrentTime();
+            const duration = calculateTimeDifference(startTime, endTime);
+            result("Found at index: " + animation.pos, duration);
+            break;
         } else if (animation.found === false) {
-            lineContainerChildElements[animation.pos].style.backgroundColor = BG_COLOR
-            toast('fail', 'Not found')
-            enableInteractions()
-            break
+            lineContainerChildElements[animation.pos].style.backgroundColor =
+                BG_COLOR;
+            // toast("fail", "Not found");
+            const failedTime = getCurrentTime();
+            const duration = calculateTimeDifference(startTime, failedTime);
+            result("Not found", duration);
+            enableInteractions();
+            break;
         } else {
             lineContainerChildElements[animation.pos].style.backgroundColor =
                 SELECT_COLOR;
@@ -226,20 +235,40 @@ async function doBinarySearch() {
             }
         }
 
-        if (animation.status === 'found') {
-            lineContainerChildElements[animation.midIndex].style.backgroundColor = FOUND_COLOR
-            toast('success', 'Found at index: ' + animation.midIndex)
-            break
-        } else if (animation.status === 'not-found') {
-            lineContainerChildElements[animation.lowIndex].style.backgroundColor = BG_COLOR
-            lineContainerChildElements[animation.midIndex].style.backgroundColor = BG_COLOR
-            animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = BG_COLOR)
-            toast('fail', 'Not Found')
-            break
-        } else if (animation.status === 'compare') {
-            lineContainerChildElements[animation.lowIndex].style.backgroundColor = COMPARE_COLOR
-            animation.highIndex >= 0 && (lineContainerChildElements[animation.highIndex].style.backgroundColor = COMPARE_COLOR)
-            await sleep(1000)
+        if (animation.status === "found") {
+            lineContainerChildElements[
+                animation.midIndex
+            ].style.backgroundColor = FOUND_COLOR;
+            // toast("success", "Found at index: " + animation.midIndex);
+            const endTime = getCurrentTime();
+            const duration = calculateTimeDifference(startTime, endTime);
+            result("Found at index: " + animation.midIndex, duration);
+            break;
+        } else if (animation.status === "not-found") {
+            lineContainerChildElements[
+                animation.lowIndex
+            ].style.backgroundColor = BG_COLOR;
+            lineContainerChildElements[
+                animation.midIndex
+            ].style.backgroundColor = BG_COLOR;
+            animation.highIndex >= 0 &&
+                (lineContainerChildElements[
+                    animation.highIndex
+                ].style.backgroundColor = BG_COLOR);
+            // toast("fail", "Not Found");
+            const failedTime = getCurrentTime();
+            const duration = calculateTimeDifference(startTime, failedTime);
+            result("Not Found", duration);
+            break;
+        } else if (animation.status === "compare") {
+            lineContainerChildElements[
+                animation.lowIndex
+            ].style.backgroundColor = COMPARE_COLOR;
+            animation.highIndex >= 0 &&
+                (lineContainerChildElements[
+                    animation.highIndex
+                ].style.backgroundColor = COMPARE_COLOR);
+            await sleep(1000);
         } else {
             lineContainerChildElements[
                 animation.midIndex
@@ -324,7 +353,10 @@ async function doBubbleSort() {
     }
 
     enableInteractions();
-    toast('success', 'Finished sorting!');
+    // toast("success", "Finished sorting!");
+    const endTime = getCurrentTime();
+    const duration = calculateTimeDifference(startTime, endTime);
+    result("Finished bubble sorting!", duration);
 }
 
 async function doSelectionSort() {
@@ -411,12 +443,231 @@ async function doSelectionSort() {
     }
 
     enableInteractions();
-    toast('success', 'Finished sorting!');
+    // toast("success", "Finished sorting!");
+    const endTime = getCurrentTime();
+    const duration = calculateTimeDifference(startTime, endTime);
+    result("Finished selection sorting!", duration);
 }
 
+// ======================================= insertion sort ================================
+async function doInsertionSort() {
+    const startTime = getCurrentTime();
+    if (!array.length) {
+        toast("fail", "Generate Array!");
+        document.getElementById("generate-array").focus();
+        return;
+    }
 
+    disableInteractions();
 
+    let lineContainerChildElements = Array.from(
+        document.getElementById("lines-container").children
+    );
+    let animationArr = getInsertionSortAnimations(array);
+    let previous;
 
+    for (let i = 0; i < animationArr.length; ++i) {
+        const animation = animationArr[i];
+
+        // Reset previous colors
+        if (previous) {
+            lineContainerChildElements[previous.posI].style.backgroundColor =
+                BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor =
+                BG_COLOR;
+        }
+
+        // Comparison step
+        if (animation.status === "compare") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                COMPARE_COLOR;
+        }
+        // Swap step
+        else if (animation.status === "swap") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                SELECT_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                SELECT_COLOR;
+
+            await sleep(500); // Pause before performing the swap
+
+            // Perform the swap
+            let tempHeight =
+                lineContainerChildElements[animation.posJ].style.height;
+            lineContainerChildElements[animation.posJ].style.height =
+                lineContainerChildElements[animation.posI].style.height;
+            lineContainerChildElements[animation.posI].style.height =
+                tempHeight;
+
+            // Update the displayed heights
+            lineContainerChildElements[animation.posJ].innerText =
+                lineContainerChildElements[animation.posJ].style.height.replace(
+                    "px",
+                    ""
+                );
+            lineContainerChildElements[animation.posI].innerText =
+                lineContainerChildElements[animation.posI].style.height.replace(
+                    "px",
+                    ""
+                );
+        }
+
+        previous = animation;
+        await sleep(500); // Pause between steps
+    }
+
+    enableInteractions();
+    // toast("success", "Insertion Sort Completed!");
+    const endTime = getCurrentTime();
+    const duration = calculateTimeDifference(startTime, endTime);
+    result("Insertion Sort Completed!", duration);
+}
+
+// ======================================= merge sort ================================
+async function doMergeSort() {
+    const startTime = getCurrentTime();
+    if (!array.length) {
+        toast("fail", "Generate Array!");
+        document.getElementById("generate-array").focus();
+        return;
+    }
+
+    disableInteractions();
+
+    let lineContainerChildElements = Array.from(
+        document.getElementById("lines-container").children
+    );
+    let animationArr = getMergeSortAnimations(array);
+    let previous;
+
+    for (let i = 0; i < animationArr.length; i++) {
+        const animation = animationArr[i];
+
+        // Reset color from previous step if needed
+        if (previous && previous.status === "compare") {
+            lineContainerChildElements[previous.posI].style.backgroundColor =
+                BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor =
+                BG_COLOR;
+        }
+
+        // Comparison step
+        if (animation.status === "compare") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                COMPARE_COLOR;
+        }
+
+        // Merging step
+        else if (animation.status === "merge") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                SELECT_COLOR;
+
+            // Apply the height change (merge step)
+            await sleep(500); // Delay before applying the height change for better visualization
+            lineContainerChildElements[animation.posI].style.height =
+                animation.height + "px";
+            lineContainerChildElements[animation.posI].innerText =
+                animation.height;
+        }
+
+        previous = animation;
+        await sleep(500); // Pause between steps for visibility
+    }
+
+    // Reset colors at the end
+    if (previous && previous.status === "compare") {
+        lineContainerChildElements[previous.posI].style.backgroundColor =
+            BG_COLOR;
+        lineContainerChildElements[previous.posJ].style.backgroundColor =
+            BG_COLOR;
+    }
+
+    enableInteractions();
+    // toast("success", "Merge Sort Completed!");
+    const endTime = getCurrentTime();
+    const duration = calculateTimeDifference(startTime, endTime);
+    result("Merge Sort Completed!", duration);
+}
+
+// ======================================= quick sort ================================
+async function doQuickSort() {
+    const startTime = getCurrentTime();
+    if (!array.length) {
+        toast("fail", "Generate Array!");
+        document.getElementById("generate-array").focus();
+        return;
+    }
+
+    disableInteractions();
+
+    let lineContainerChildElements = Array.from(
+        document.getElementById("lines-container").children
+    );
+    let animationArr = getQuickSortAnimations(array);
+    let previous;
+
+    for (let i = 0; i < animationArr.length; i++) {
+        const animation = animationArr[i];
+
+        // Reset color from previous iteration
+        if (previous) {
+            lineContainerChildElements[previous.posI].style.backgroundColor =
+                BG_COLOR;
+            lineContainerChildElements[previous.posJ].style.backgroundColor =
+                BG_COLOR;
+        }
+
+        // Comparison step
+        if (animation.status === "compare") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                COMPARE_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                COMPARE_COLOR;
+        }
+        // Swap step
+        else if (animation.status === "swap") {
+            lineContainerChildElements[animation.posI].style.backgroundColor =
+                SELECT_COLOR;
+            lineContainerChildElements[animation.posJ].style.backgroundColor =
+                SELECT_COLOR;
+
+            await sleep(500); // Pause to show color change before swapping
+
+            // Perform the swap
+            const tempHeight =
+                lineContainerChildElements[animation.posI].style.height;
+            lineContainerChildElements[animation.posI].style.height =
+                lineContainerChildElements[animation.posJ].style.height;
+            lineContainerChildElements[animation.posJ].style.height =
+                tempHeight;
+
+            // Update the displayed numbers
+            lineContainerChildElements[animation.posI].innerText =
+                lineContainerChildElements[animation.posI].style.height.replace(
+                    "px",
+                    ""
+                );
+            lineContainerChildElements[animation.posJ].innerText =
+                lineContainerChildElements[animation.posJ].style.height.replace(
+                    "px",
+                    ""
+                );
+        }
+
+        previous = animation;
+        await sleep(500); // Pause between each step for visibility
+    }
+
+    enableInteractions();
+    // toast("success", "Quick Sort Completed!");
+    const endTime = getCurrentTime();
+    const duration = calculateTimeDifference(startTime, endTime);
+    result("Quick Sort Completed!", duration);
+}
 
 window.handleDatasetSizeChange = handleDatasetSizeChange;
 window.handleSearchNumberChange = handleSearchNumberChange;

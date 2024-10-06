@@ -19,7 +19,30 @@ body {
 
 }
 
-#result-container{
+#execution-time-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 550px;
+    height: 80px;
+    gap: 5px;
+    row-gap: 5px;
+}
+#execution-time-list li {
+    font-size: 20px;
+    color: rgb(255, 200, 160);
+}
+#execution-time-list li b {
+    color: rgb(255, 200, 160);
+}
+#execution-time-list li i {
+    color: maroon;
+}
+
+#result-container {
     position: absolute;
     right: 50px;
     bottom: 30px;
@@ -35,7 +58,7 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-#execution-time{
+#execution-time {
     color: maroon;
 }
 
